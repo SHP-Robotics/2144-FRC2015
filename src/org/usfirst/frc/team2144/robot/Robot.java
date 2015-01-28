@@ -7,10 +7,12 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Compressor;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,17 +25,23 @@ public class Robot extends IterativeRobot {
 	RobotDrive myRobot;
 	Joystick stick;
 	Joystick stick2;
-	DigitalInput winchtop1; 
-	DigitalInput winchtop2; 
+	DigitalInput winchtopL; //0: TopLeft; 2 orange/1 green, 1: BottomLeft; 2grn/1blu, 2: TOPRight; ?, 3: BottomRight; ?
+	DigitalInput winchbottomL;
+	DigitalInput winchbottomR;
+	DigitalInput winchtopR;
 	//Relay spike;
 	Solenoid out;
 	Solenoid in;
 	//Gyro gyro;
 	//I2C i2c;
-	CANTalon winch;
+	Talon winch;
 	PowerDistributionPanel pdp;
+	Compressor pneumatics;
+	Servo cameraX;
+	Servo cameraY;
 	int autoLoopCounter;
-	
+	int cameraXPos = 153;
+	int cameraYPos = 67;
 	
 	
 	
@@ -46,20 +54,26 @@ public class Robot extends IterativeRobot {
     	myRobot = new RobotDrive(0,1,2,3);//2:Green, 3:Pink, 0:Blue, 1:Orange
     	stick = new Joystick(0);
     	stick2 = new Joystick(1);
-    	winchtop1 = new DigitalInput(0);
-    	winchtop2 = new DigitalInput(1);
+    	winchtopL = new DigitalInput(0);
+    	winchtopR = new DigitalInput(2);
+    	winchbottomL = new DigitalInput(1);
+    	winchbottomR = new DigitalInput(3);
     	pdp = new PowerDistributionPanel();
+    	pneumatics = new Compressor();
     	//spike = new Relay(0);
     	out = new Solenoid(0);
     	in = new Solenoid(1);
-    	winch = new CANTalon(0);
+    	winch = new Talon(4);
+    	cameraX = new Servo(9);
+    	cameraY = new Servo(8);
     	//gyro = new Gyro(0);
     	myRobot.setInvertedMotor(RobotDrive.MotorType.kRearLeft,true);
     	myRobot.setInvertedMotor(RobotDrive.MotorType.kFrontLeft,true);
     	//i2c = new I2C(I2C.Port.kOnboard, 168);
     	pdp.clearStickyFaults();
-    	winch.changeControlMode(CANTalon.ControlMode.PercentVbus);
-    	winch.enableControl();
+    	pneumatics.clearAllPCMStickyFaults();
+    	//winch.changeControlMode(CANTalon.ControlMode.PercentVbus);
+    	//winch.enableControl();
     	
     }
     
@@ -110,7 +124,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	if(stick.getRawButton(4)){
+    	if(stick.getRawButton(4)){//drive code
     		myRobot.mecanumDrive_Polar(0.7, 90, stick.getY()*-1);
     	}
     	else if(stick.getRawButton(5)){
@@ -121,7 +135,7 @@ public class Robot extends IterativeRobot {
     		myRobot.arcadeDrive(stick.getX()*-1, stick.getY()*-1);
     	}
     	
-    	if(stick2.getRawButton(2)){
+    	if(stick2.getRawButton(2)){//pneumatics
     		out.set(false);
     		in.set(true);
     	}
@@ -130,28 +144,48 @@ public class Robot extends IterativeRobot {
     		in.set(false);
     	}
     	
-    	if(!winchtop1.get()){//if touch sensor at top is pressed, then...
-    		if(stick2.getY()<0){//if trying to go up, set motor speed to 0 (Not moving)
-    			winch.set(0.1);
+    	if(!winchtopL.get() || !winchtopR.get()){//if touch sensor at top is pressed, then...
+    		if(stick2.getY()>0){//if trying to go up, set motor speed to 0 (Not moving)
+    			winch.set(-0.1);
     		}
     		else{
     			winch.set(stick2.getY()*-0.5);//otherwise go down
     		}
     	}
-    	else if(!winchtop2.get()){
-    		if(stick2.getY()<0){
-    			winch.set(0.1);
+    	else if(!winchbottomL.get() || !winchbottomR.get()){//if touch sensor at bottom is pressed, then...
+    		if(stick2.getY()<0){//if trying to go down, set motor speed to 0 (Not moving)
+    			winch.set(-0.1);
     		}
     		else{
-    			winch.set(stick2.getY()*-0.5);
+    			winch.set(stick2.getY()*-0.5);//otherwise go up
     		}
     	}
     	else{
-    		winch.set(stick2.getY()*-0.5);
+    		winch.set((stick2.getY()*-0.5)-0.1);
     	}
 		
+    	if(stick2.getRawButton(7) && cameraYPos>0){
+    		cameraYPos--;
+    	}
+    	else if(stick2.getRawButton(6) && cameraYPos<170){
+    		cameraYPos++;
+    	}
+    	if(stick2.getRawButton(8) && cameraXPos>0){
+    		cameraXPos--;
+    	}
+    	else if(stick2.getRawButton(9) && cameraXPos<170){
+    		cameraXPos++;
+    	}
+    	else if(stick2.getRawButton(1)){
+    		cameraXPos = 153;
+    		cameraYPos = 67;
+    	}
     	
-    	System.out.println(winch.getPosition());
+    	cameraX.setAngle(cameraXPos);
+    	cameraY.setAngle(cameraYPos);
+    	System.out.println("X: " + cameraXPos);
+    	System.out.println("Y: " + cameraYPos);
+    	
     		
     	
  
