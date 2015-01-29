@@ -125,17 +125,17 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	if(stick.getRawButton(4)){//drive code
-    		myRobot.mecanumDrive_Polar(0.7, 90, stick.getY()*-1);
+    		myRobot.mecanumDrive_Polar(1, 90, stick.getY()*-1);
     	}
     	else if(stick.getRawButton(5)){
-    		myRobot.mecanumDrive_Polar(0.7, 270, stick.getY()*-1);
+    		myRobot.mecanumDrive_Polar(1, 270, stick.getY()*-1);
     	}
     	
     	else{
     		myRobot.arcadeDrive(stick.getX()*-1, stick.getY()*-1);
     	}
     	
-    	if(stick2.getRawButton(2)){//pneumatics
+    	if(stick2.getRawButton(4)){//pneumatics
     		out.set(false);
     		in.set(true);
     	}
@@ -164,17 +164,33 @@ public class Robot extends IterativeRobot {
     		winch.set((stick2.getY()*-0.5)-0.1);
     	}
 		
-    	if(stick2.getRawButton(7) && cameraYPos>0){
+    	if(stick2.getPOV(0) == 180 && cameraYPos>0){//down
     		cameraYPos--;
     	}
-    	else if(stick2.getRawButton(6) && cameraYPos<170){
+    	else if(stick2.getPOV(0) == 0 && cameraYPos<170){//up
     		cameraYPos++;
     	}
-    	if(stick2.getRawButton(8) && cameraXPos>0){
+    	else if(stick2.getPOV(0) == 270 && cameraXPos>0){//left
     		cameraXPos--;
     	}
-    	else if(stick2.getRawButton(9) && cameraXPos<170){
+    	else if(stick2.getPOV(0) == 90 && cameraXPos<170){//right
     		cameraXPos++;
+    	}
+    	else if(stick2.getPOV(0) == 45 && cameraYPos<170 && cameraXPos<170){//up, right
+    		cameraYPos++;
+    		cameraXPos++;
+    	}
+    	else if(stick2.getPOV(0) == 135 && cameraXPos<170 && cameraYPos>0){//down, right
+    		cameraXPos++;
+    		cameraYPos--;
+    	}
+    	else if(stick2.getPOV(0) == 225 && cameraXPos>0 && cameraYPos>0){//down, left
+    		cameraXPos--;
+    		cameraYPos--;
+    	}
+    	else if(stick2.getPOV(0) == 315 && cameraXPos>0 && cameraYPos<170){//up, left
+    		cameraXPos--;
+    		cameraYPos++;
     	}
     	else if(stick2.getRawButton(1)){
     		cameraXPos = 153;
@@ -183,8 +199,8 @@ public class Robot extends IterativeRobot {
     	
     	cameraX.setAngle(cameraXPos);
     	cameraY.setAngle(cameraYPos);
-    	System.out.println("X: " + cameraXPos);
-    	System.out.println("Y: " + cameraYPos);
+    	//System.out.println("X: " + cameraXPos);
+    	//System.out.println("Y: " + cameraYPos);
     	
     		
     	
@@ -196,6 +212,7 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
     	LiveWindow.run();
+    	//System.out.println(stick2.getPOV(0));
     }
     
 }
