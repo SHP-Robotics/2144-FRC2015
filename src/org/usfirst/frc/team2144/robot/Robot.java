@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
 	DigitalInput winchbottomL;
 	DigitalInput winchbottomR;
 	DigitalInput winchtopR;
-	//Relay spike;
+	Relay spike;
 	Solenoid out;
 	Solenoid in;
 	//Gyro gyro;
@@ -42,6 +42,7 @@ public class Robot extends IterativeRobot {
 	int autoLoopCounter;
 	int cameraXPos = 153;
 	int cameraYPos = 67;
+	boolean camLEDs = false;
 	
 	
 	
@@ -60,7 +61,7 @@ public class Robot extends IterativeRobot {
     	winchbottomR = new DigitalInput(3);
     	pdp = new PowerDistributionPanel();
     	pneumatics = new Compressor();
-    	//spike = new Relay(0);
+    	spike = new Relay(0);
     	out = new Solenoid(0);
     	in = new Solenoid(1);
     	winch = new Talon(4);
@@ -88,7 +89,10 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	myRobot.setLeftRightMotorOutputs(1, 0);
+    	spike.set(Relay.Value.kForward);
+    	cameraX.setAngle(111);
+    	cameraY.setAngle(87);
+    	//myRobot.setLeftRightMotorOutputs(1, 0);
     	/*if(autoLoopCounter<=100){
     		myRobot.mecanumDrive_Polar(0.2, 0, 0);
 	    	
@@ -195,12 +199,14 @@ public class Robot extends IterativeRobot {
     	else if(stick2.getRawButton(1)){
     		cameraXPos = 153;
     		cameraYPos = 67;
+    		
     	}
     	
     	cameraX.setAngle(cameraXPos);
     	cameraY.setAngle(cameraYPos);
     	//System.out.println("X: " + cameraXPos);
     	//System.out.println("Y: " + cameraYPos);
+    	
     	
     		
     	
