@@ -1,0 +1,132 @@
+package org.usfirst.frc.team2144.robot;                     
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Gyro;
+
+/**
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to each mode, as described in the IterativeRobot
+ * documentation. If you change the name of this class or the package after
+ * creating this project, you must also update the manifest file in the resource
+ * directory.
+ */
+public class Robot extends IterativeRobot {
+	RobotDrive myRobot;
+	Joystick stick;
+	Joystick stick2;
+	DigitalInput touchsensor; 
+	Relay spike;
+	Solenoid out;
+	Solenoid in;
+	Gyro gyro;
+	int autoLoopCounter;
+	
+	
+	
+	
+	
+    /**
+     * This function is run when the robot is first started up and should be
+     * used for any initialization code.
+     */
+    public void robotInit() {
+    	myRobot = new RobotDrive(0,1,2,3);
+    	stick = new Joystick(0);
+    	stick2 = new Joystick(1);
+    	touchsensor = new DigitalInput(2);
+    	spike = new Relay(0);
+    	out = new Solenoid(0);
+    	in = new Solenoid(1);
+    	gyro = new Gyro(0);
+    	myRobot.setInvertedMotor(RobotDrive.MotorType.kRearLeft,true);
+    	myRobot.setInvertedMotor(RobotDrive.MotorType.kFrontLeft,true);
+    	
+    }
+    
+    /**
+     * This function is run once each time the robot enters autonomous mode
+     */
+    public void autonomousInit() {
+    	autoLoopCounter = 0;
+    }
+
+    /**
+     * This function is called periodically during autonomous
+     */
+    public void autonomousPeriodic() {
+    	if(touchsensor.get()) //Check if we've completed 100 loops (approximately 2 seconds)
+		{
+			myRobot.drive(-0.5, 0.0); 	// drive forwards half speed
+			autoLoopCounter++;
+			} else {
+			myRobot.drive(-0.0, 0.0); 	// stop robot
+		}
+    }
+    
+    /**
+     * This function is called once each time the robot enters tele-operated mode
+     */
+    public void teleopInit(){
+    }
+    // Hi Andrew and Giorgio approves!!! 
+    /**
+     * This function is called periodically during operator control
+     */
+    public void teleopPeriodic() {
+    	/*double stickdifference = stick.getY()-stick2.getY();//to tell how much to rotate while in mecanum drive
+    	double sticksum = stick.getY()+stick2.getY();//to tell how much to move forward while in mecanum drive
+    	if(stick.getRawButton(1)){//If button 1 is held down, mecanum drive is disabled
+	    	myRobot.tankDrive(stick.getY(), stick2.getY()*-1);
+    	}
+    	else{
+    		if(stick.getX()>0.1)
+	        {
+	    		//myRobot.mecanumDrive_Cartesian(stick.getX(),sticksum*-0.5,stickdifference/2,gyro.getAngle());*/
+    			myRobot.mecanumDrive_Cartesian(stick.getY(),stick.getX(),stick2.getX(),gyro.getAngle());/*
+	            //System.out.println("button 3 pressed");
+	            out.set(true);
+	            in.set(false);
+	        }
+	    	else if(stick.getX()<-0.1){
+    			//myRobot.mecanumDrive_Cartesian(stick.getX(),sticksum*-0.5,stickdifference/2,gyro.getAngle());
+	    		myRobot.mecanumDrive_Cartesian(stick.getY(),stick.getX(),stick2.getX(),gyro.getAngle());
+            	//System.out.println("button 3 pressed");
+            	out.set(true);
+            	in.set(false);
+    		}
+        	else
+        	{
+        		myRobot.tankDrive(stick.getY(), stick2.getY()*-1);
+            	//System.out.println("button 3 NOT pressed");
+            	out.set(false);
+            	in.set(true);
+        	}
+    	}
+        if (touchsensor.get())
+        {
+        	 
+        	 //System.println("hi");
+        } 
+        else
+        {
+        	
+        }*/
+        
+    }
+    
+    /**
+     * This function is called periodically during test mode
+     */
+    public void testPeriodic() {
+    	LiveWindow.run();
+    }
+    
+}
+//RJ's commwent section'
+//
+//system.out.println("awwwww");
