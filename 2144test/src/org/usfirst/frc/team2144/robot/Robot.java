@@ -46,6 +46,7 @@ public class Robot extends IterativeRobot {
 	int cameraYPos = 67;
 	boolean camLEDs = false;
 	boolean gotBin = false;
+	boolean stopOverride = false;
 	
 	
 	
@@ -78,7 +79,8 @@ public class Robot extends IterativeRobot {
     	pneumatics.clearAllPCMStickyFaults();
     	//winch.changeControlMode(CANTalon.ControlMode.PercentVbus);
     	//winch.enableControl();
-    	
+     	//CameraServer.getInstance().startAutomaticCapture();
+    	stopOverride = false;
     }
     
     /**
@@ -119,7 +121,7 @@ public class Robot extends IterativeRobot {
         		out.set(false);
         		in.set(true);
         	}
-        	else if(autoLoopCounter>130 && autoLoopCounter<210){
+        	else if(autoLoopCounter>150 && autoLoopCounter<210){
         		winch.set(-0.5);
         	}
         	/*else if(autoLoopCounter>320 && autoLoopCounter < 350){
@@ -143,15 +145,19 @@ public class Robot extends IterativeRobot {
         		winch.set(-0.1);
         		myRobot.arcadeDrive(0.6,0);
         	}//add end comment here*/
-        	else if(autoLoopCounter>210 && autoLoopCounter<600){
+        	else if(autoLoopCounter>210 && autoLoopCounter<410){
         		winch.set(-0.1);
         		myRobot.arcadeDrive(0.6, -0.23);
         	}
-        	else if(autoLoopCounter>600 && autoLoopCounter<680 && winchbottomL.get() && winchbottomR.get()){
+        	else if(autoLoopCounter>410 && autoLoopCounter<490 && winchbottomL.get() && winchbottomR.get()){
         		winch.set(0.2);
         		myRobot.arcadeDrive(0,0);
         		out.set(true);
         		in.set(false);
+        	}
+        	else if(autoLoopCounter>490 && autoLoopCounter<540){
+        		winch.set(-0.1);
+        		myRobot.arcadeDrive(-0.6, -0.23);
         	}
 
         	autoLoopCounter++;
@@ -171,6 +177,8 @@ public class Robot extends IterativeRobot {
     	myRobot.setInvertedMotor(RobotDrive.MotorType.kFrontLeft,true);
     	out.set(true);
     	in.set(false);
+    	//CameraServer.getInstance().getInstance().getInstance().getInstance().startAutomaticCapture();
+   
     }
     // Hi Ender and Giorgio approves!!! 
     /**
@@ -209,7 +217,11 @@ public class Robot extends IterativeRobot {
     		in.set(false);
     	}
     	
-    	if(!winchtopL.get() || !winchtopR.get()){//if touch sensor at top is pressed, then...
+    	if(stick2.getRawButton(7)){//stop end switch override
+    		stopOverride = true;
+    	}
+    	
+    	if(!winchtopL.get() || !winchtopR.get() && !stopOverride){//if touch sensor at top is pressed, then...
     		if(stick2.getY()>0){//if trying to go up, set motor speed to 0 (Not moving)
     			winch.set(-0.1);
     		}
@@ -217,7 +229,7 @@ public class Robot extends IterativeRobot {
     			winch.set(stick2.getY()*-0.5);//otherwise go down
     		}
     	}
-    	else if(!winchbottomL.get() || !winchbottomR.get()){//if touch sensor at bottom is pressed, then...
+    	else if(!winchbottomL.get() || !winchbottomR.get() && !stopOverride){//if touch sensor at bottom is pressed, then...
     		if(stick2.getY()<0){//if trying to go down, set motor speed to 0 (Not moving)
     			winch.set(-0.1);
     		}
