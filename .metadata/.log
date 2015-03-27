@@ -5698,3 +5698,212 @@ Caused by: java.io.FileNotFoundException: C:\Users\Robotics\Desktop\eclipse\plug
 	at java.util.zip.ZipFile.<init>(Unknown Source)
 	at org.eclipse.osgi.framework.util.SecureAction.getZipFile(SecureAction.java:288)
 	... 31 more
+!SESSION 2015-03-17 10:22:00.889 -----------------------------------------------
+eclipse.buildId=4.4.1.M20140925-0400
+java.version=1.8.0_40
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.cpp.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2015-03-17 10:22:07.513
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-17 10:22:13.265
+!MESSAGE Installing tools if necessary
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-17 10:22:13.274
+!MESSAGE Installedtools
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-17 10:22:13.278
+!MESSAGE Installing java if necessary
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-17 10:22:13.281
+!MESSAGE Installedjava
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-03-17 10:22:13.531
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-03-17 10:22:13.534
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Robotics'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.equinox.p2.updatechecker 4 0 2015-03-17 10:22:38.469
+!MESSAGE Exception in update check thread
+!STACK 0
+org.eclipse.core.runtime.OperationCanceledException
+	at org.eclipse.equinox.internal.p2.repository.CacheManager.updateCache(CacheManager.java:370)
+	at org.eclipse.equinox.internal.p2.repository.CacheManager.createCache(CacheManager.java:208)
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.getLocalFile(SimpleMetadataRepositoryFactory.java:66)
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.load(SimpleMetadataRepositoryFactory.java:88)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.factoryLoad(MetadataRepositoryManager.java:57)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:768)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:668)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepository.addChild(CompositeMetadataRepository.java:166)
+	at org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepository.<init>(CompositeMetadataRepository.java:106)
+	at org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepositoryFactory.load(CompositeMetadataRepositoryFactory.java:122)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.factoryLoad(MetadataRepositoryManager.java:57)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:768)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:668)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.getAvailableRepositories(UpdateChecker.java:151)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.checkForUpdates(UpdateChecker.java:129)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker$UpdateCheckThread.run(UpdateChecker.java:73)
+!SESSION 2015-03-23 10:12:25.590 -----------------------------------------------
+eclipse.buildId=4.4.1.M20140925-0400
+java.version=1.8.0_40
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.cpp.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-03-23 10:12:35.046
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-03-23 10:12:35.051
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Robotics'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-23 10:12:35.566
+!MESSAGE Installing tools if necessary
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-23 10:12:35.569
+!MESSAGE Installedtools
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-23 10:12:35.572
+!MESSAGE Installing java if necessary
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-23 10:12:35.575
+!MESSAGE Installedjava
+!SESSION 2015-03-24 10:40:28.881 -----------------------------------------------
+eclipse.buildId=4.4.1.M20140925-0400
+java.version=1.8.0_40
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.cpp.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-24 10:40:41.754
+!MESSAGE Installing tools if necessary
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-24 10:40:41.761
+!MESSAGE Installedtools
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-24 10:40:41.765
+!MESSAGE Installing java if necessary
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-24 10:40:41.768
+!MESSAGE Installedjava
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-03-24 10:40:41.928
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-03-24 10:40:41.931
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Robotics'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-24 10:48:39.603
+!MESSAGE Running ant file: C:\Users\Robotics\workspace\2144test\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-24 10:48:39.610
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-24 10:52:09.047
+!MESSAGE Running ant file: C:\Users\Robotics\workspace\2146test\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-24 10:52:09.054
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-24 10:58:18.463
+!MESSAGE Running ant file: C:\Users\Robotics\workspace\2144test\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-24 10:58:18.469
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-24 11:02:42.453
+!MESSAGE Running ant file: C:\Users\Robotics\workspace\2144test\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-24 11:02:42.460
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-24 11:03:18.899
+!MESSAGE Running ant file: C:\Users\Robotics\workspace\2144test\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-24 11:03:18.906
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-26 10:08:48.455
+!MESSAGE Running ant file: C:\Users\Robotics\workspace\2144test\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-26 10:08:48.462
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-26 10:09:35.829
+!MESSAGE Running ant file: C:\Users\Robotics\workspace\2144test\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2015-03-26 10:09:35.835
+!MESSAGE Targets: deploy, Mode: run
+!SESSION 2015-03-27 15:00:35.517 -----------------------------------------------
+eclipse.buildId=4.4.1.M20140925-0400
+java.version=1.8.0_40
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.cpp.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2015-03-27 15:00:37.277
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-03-27 15:00:44.176
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-03-27 15:00:44.179
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Robotics'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-27 15:00:44.570
+!MESSAGE Installing tools if necessary
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-27 15:00:44.573
+!MESSAGE Installedtools
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-27 15:00:44.576
+!MESSAGE Installing java if necessary
+
+!ENTRY edu.wpi.first.wpilib.plugins.core 1 0 2015-03-27 15:00:44.579
+!MESSAGE Installedjava

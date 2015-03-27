@@ -3,4 +3,8 @@
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.RobotDrive.MotorType"/>
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.Talon"/>
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.Servo"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.Encoder"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.smartdashboard.SendableChooser"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.command.Scheduler"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.command.Command"/>
 </qualifiedTypeNameHistroy>

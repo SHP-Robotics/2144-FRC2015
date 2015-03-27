@@ -2,11 +2,16 @@ package org.usfirst.frc.team2144.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Servo;
@@ -41,12 +46,20 @@ public class Robot extends IterativeRobot {
 	Compressor pneumatics;
 	Servo cameraX;
 	Servo cameraY;
+	//Encoder test;
 	int autoLoopCounter;
 	int cameraXPos = 153;
 	int cameraYPos = 67;
 	boolean camLEDs = false;
 	boolean gotBin = false;
+	boolean stopOverride = false;
+	double speedMultiplier = 1;
+	double mecanumMultiplier = 1;
+	double winchMultiplier = 0.8;
 	
+	
+	int pneumaticsState;
+	SendableChooser pneumaticsChooser;
 	
 	
 	
@@ -55,6 +68,14 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	
+    	pneumaticsChooser = new SendableChooser();
+    	pneumaticsChooser.addDefault("Enable Pneumatics", 0);
+    	pneumaticsChooser.addObject("Disable Pneumatics", 1);
+    	SmartDashboard.putData("Pneumatics", pneumaticsChooser);
+    	
+    	
+    	
     	myRobot = new RobotDrive(0,1,2,3);//2:Green, 3:Pink, 0:Blue, 1:Orange
     	stick = new Joystick(0);
     	stick2 = new Joystick(1);
@@ -76,8 +97,13 @@ public class Robot extends IterativeRobot {
     	//i2c = new I2C(I2C.Port.kOnboard, 168);
     	pdp.clearStickyFaults();
     	pneumatics.clearAllPCMStickyFaults();
+    	
     	//winch.changeControlMode(CANTalon.ControlMode.PercentVbus);
     	//winch.enableControl();
+     	//CameraServer.getInstance().startAutomaticCapture();
+    	stopOverride = false;
+    	
+    	
     	
     }
     
@@ -85,6 +111,9 @@ public class Robot extends IterativeRobot {
      * This function is run once each time the robot enters autonomous mode
      */
     public void autonomousInit() {
+    	SmartDashboard.putData("Pneumatics", pneumaticsChooser);
+    	
+    	
     	autoLoopCounter = 0;
     	out.set(true);
     	in.set(false);
@@ -101,6 +130,16 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+    	pneumaticsState = (Integer) pneumaticsChooser.getSelected();
+    	if(pneumaticsState == 1){
+    		pneumatics.start();
+    		SmartDashboard.putNumber("PneumaticsState", 1);
+    	} else {
+    		pneumatics.stop();
+    		SmartDashboard.putNumber("PneumaticsState", 0);
+    	}
+    	Scheduler.getInstance().run();
+    	
     	/*if(autoLoopCounter <100){
     		myRobot.arcadeDrive(0, 0.5);
     	}
@@ -119,7 +158,7 @@ public class Robot extends IterativeRobot {
         		out.set(false);
         		in.set(true);
         	}
-        	else if(autoLoopCounter>130 && autoLoopCounter<210){
+        	else if(autoLoopCounter>150 && autoLoopCounter<210){
         		winch.set(-0.5);
         	}
         	/*else if(autoLoopCounter>320 && autoLoopCounter < 350){
@@ -143,15 +182,19 @@ public class Robot extends IterativeRobot {
         		winch.set(-0.1);
         		myRobot.arcadeDrive(0.6,0);
         	}//add end comment here*/
-        	else if(autoLoopCounter>210 && autoLoopCounter<600){
+        	else if(autoLoopCounter>210 && autoLoopCounter<410){
         		winch.set(-0.1);
         		myRobot.arcadeDrive(0.6, -0.23);
         	}
-        	else if(autoLoopCounter>600 && autoLoopCounter<680 && winchbottomL.get() && winchbottomR.get()){
+        	else if(autoLoopCounter>410 && autoLoopCounter<490 && winchbottomL.get() && winchbottomR.get()){
         		winch.set(0.2);
         		myRobot.arcadeDrive(0,0);
         		out.set(true);
         		in.set(false);
+        	}
+        	else if(autoLoopCounter>490 && autoLoopCounter<540){
+        		winch.set(-0.1);
+        		myRobot.arcadeDrive(-0.6, -0.23);
         	}
 
         	autoLoopCounter++;
@@ -167,17 +210,31 @@ public class Robot extends IterativeRobot {
      * This function is called once each time the robot enters tele-operated mode
      */
     public void teleopInit(){
+    	SmartDashboard.putData("Pneumatics", pneumaticsChooser);
+    	
+    	
     	myRobot.setInvertedMotor(RobotDrive.MotorType.kRearLeft,true);
     	myRobot.setInvertedMotor(RobotDrive.MotorType.kFrontLeft,true);
     	out.set(true);
     	in.set(false);
+    	//CameraServer.getInstance().getInstance().getInstance().getInstance().startAutomaticCapture();
+   
     }
     // Hi Ender and Giorgio approves!!! 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	if(stick.getRawButton(4) && stick.getRawButton(1)){//drive code
+    	pneumaticsState = (Integer) pneumaticsChooser.getSelected();
+    	if(pneumaticsState == 1){
+    		pneumatics.start();
+    		SmartDashboard.putNumber("PneumaticsState", 1);
+    	} else {
+    		pneumatics.stop();
+    		SmartDashboard.putNumber("PneumaticsState", 0);
+    	}
+    	Scheduler.getInstance().run();
+    	/*if(stick.getRawButton(4) && stick.getRawButton(1)){//drive code
     		myRobot.mecanumDrive_Polar(0.3, 90, -1*stick.getX());
     	}
     	else if(stick.getRawButton(5) && stick.getRawButton(1)){
@@ -198,7 +255,44 @@ public class Robot extends IterativeRobot {
     			myRobot.arcadeDrive(stick.getX()*-1, stick.getY()*-1);
     		}
     		
+    	}*/
+    	
+    	if(stick.getRawButton(1)){
+    		speedMultiplier = 0.5;
+    		mecanumMultiplier = 0.4;
+    	}else{
+    		if(speedMultiplier < 1){
+    			speedMultiplier += 0.1;
+    		}
+    		if(mecanumMultiplier < 1){
+    			mecanumMultiplier += 0.1;
+    		}
     	}
+    	
+    	if(stick.getRawButton(4) && stick.getRawButton(1)){//drive code
+    		myRobot.mecanumDrive_Polar(0.3, 90, -1*stick.getX());
+    	}
+    	else if(stick.getRawButton(5) && stick.getRawButton(1)){
+    		myRobot.mecanumDrive_Polar(0.3, 270, -1*stick.getX());
+    	}
+    	else if(stick.getRawButton(4)){//drive code
+    		myRobot.mecanumDrive_Polar(mecanumMultiplier, 90, -1*stick.getX());
+    	}
+    	else if(stick.getRawButton(5)){
+    		myRobot.mecanumDrive_Polar(mecanumMultiplier, 270, -1*stick.getX());
+    	}
+    	
+    	else{
+    		if(stick.getRawButton(1)){
+    			myRobot.arcadeDrive(stick.getX()*-0.5, stick.getY()*-0.5);
+    		}
+    		else{
+    			myRobot.arcadeDrive(stick.getX()*-speedMultiplier, stick.getY()*-1);
+    		}
+    	}
+    	
+    	
+    	
     	
     	if(stick2.getRawButton(4)){//pneumatics
     		out.set(false);
@@ -209,7 +303,27 @@ public class Robot extends IterativeRobot {
     		in.set(false);
     	}
     	
-    	if(!winchtopL.get() || !winchtopR.get()){//if touch sensor at top is pressed, then...
+    	if(stick2.getRawButton(7)){//stop end switch override
+    		stopOverride = true;
+    	}
+    	
+    	if(!winchtopL.get() || !winchtopR.get() && !stopOverride){//if touch sensor at top is pressed, then...
+    		if(stick2.getY()>0){//if trying to go up, set motor speed to 0 (Not moving)
+    			winch.set(-0.1);
+    		}
+    		else{
+    			winch.set(stick2.getY()*-winchMultiplier);//otherwise go down
+    		}
+    	}
+    	else if(!winchbottomL.get() || !winchbottomR.get() && !stopOverride){//if touch sensor at bottom is pressed, then...
+    		if(stick2.getY()<0){//if trying to go down, set motor speed to 0 (Not moving)
+    			winch.set(-0.1);
+    		}
+    		else{
+    			winch.set(stick2.getY()*-winchMultiplier);//otherwise go up
+    		}
+    	}
+    	if(!winchtopL.get() || !winchtopR.get() && !stopOverride && stick2.getRawButton(1)){//if touch sensor at top is pressed, then...
     		if(stick2.getY()>0){//if trying to go up, set motor speed to 0 (Not moving)
     			winch.set(-0.1);
     		}
@@ -217,7 +331,7 @@ public class Robot extends IterativeRobot {
     			winch.set(stick2.getY()*-0.5);//otherwise go down
     		}
     	}
-    	else if(!winchbottomL.get() || !winchbottomR.get()){//if touch sensor at bottom is pressed, then...
+    	else if(!winchbottomL.get() || !winchbottomR.get() && !stopOverride && stick2.getRawButton(1)){//if touch sensor at bottom is pressed, then...
     		if(stick2.getY()<0){//if trying to go down, set motor speed to 0 (Not moving)
     			winch.set(-0.1);
     		}
@@ -225,9 +339,16 @@ public class Robot extends IterativeRobot {
     			winch.set(stick2.getY()*-0.5);//otherwise go up
     		}
     	}
-    	else{
+    	else if(stick2.getRawButton(1)){
     		winch.set((stick2.getY()*-0.5)-0.1);
     	}
+    	else{
+    		winch.set((stick2.getY()*-winchMultiplier)-0.1);
+    	}
+    	
+    	
+    	
+    	
 		
     	if(stick2.getPOV(0) == 180 && cameraYPos>0){//down
     		cameraYPos--;
@@ -381,5 +502,4 @@ autoLoopCounter++;
 }
 else{
 winch.set(0.3);
-
 }*///auto code (working?)
