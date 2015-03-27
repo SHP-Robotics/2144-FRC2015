@@ -53,12 +53,9 @@ public class Robot extends IterativeRobot {
 	boolean camLEDs = false;
 	boolean gotBin = false;
 	boolean stopOverride = false;
-<<<<<<< HEAD
 	double speedMultiplier = 1;
 	double mecanumMultiplier = 1;
 	double winchMultiplier = 0.8;
-=======
->>>>>>> origin/master
 	
 	
 	int pneumaticsState;
@@ -105,12 +102,9 @@ public class Robot extends IterativeRobot {
     	//winch.enableControl();
      	//CameraServer.getInstance().startAutomaticCapture();
     	stopOverride = false;
-<<<<<<< HEAD
     	
     	
     	
-=======
->>>>>>> origin/master
     }
     
     /**
@@ -314,7 +308,6 @@ public class Robot extends IterativeRobot {
     	}
     	
     	if(!winchtopL.get() || !winchtopR.get() && !stopOverride){//if touch sensor at top is pressed, then...
-<<<<<<< HEAD
     		if(stick2.getY()>0){//if trying to go up, set motor speed to 0 (Not moving)
     			winch.set(-0.1);
     		}
@@ -331,8 +324,6 @@ public class Robot extends IterativeRobot {
     		}
     	}
     	if(!winchtopL.get() || !winchtopR.get() && !stopOverride && stick2.getRawButton(1)){//if touch sensor at top is pressed, then...
-=======
->>>>>>> origin/master
     		if(stick2.getY()>0){//if trying to go up, set motor speed to 0 (Not moving)
     			winch.set(-0.1);
     		}
@@ -340,11 +331,7 @@ public class Robot extends IterativeRobot {
     			winch.set(stick2.getY()*-0.5);//otherwise go down
     		}
     	}
-<<<<<<< HEAD
     	else if(!winchbottomL.get() || !winchbottomR.get() && !stopOverride && stick2.getRawButton(1)){//if touch sensor at bottom is pressed, then...
-=======
-    	else if(!winchbottomL.get() || !winchbottomR.get() && !stopOverride){//if touch sensor at bottom is pressed, then...
->>>>>>> origin/master
     		if(stick2.getY()<0){//if trying to go down, set motor speed to 0 (Not moving)
     			winch.set(-0.1);
     		}
@@ -515,9 +502,4 @@ autoLoopCounter++;
 }
 else{
 winch.set(0.3);
-<<<<<<< HEAD
 }*///auto code (working?)
-=======
-
-}*///auto code (working?)
->>>>>>> origin/master
