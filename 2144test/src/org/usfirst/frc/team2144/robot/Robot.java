@@ -1,4 +1,9 @@
 package org.usfirst.frc.team2144.robot;                     
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.DrawMode;
+import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.ShapeMode;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -8,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.AxisCamera;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -46,6 +52,9 @@ public class Robot extends IterativeRobot {
 	Compressor pneumatics;
 	Servo cameraX;
 	Servo cameraY;
+	Image image;
+	AxisCamera camera;
+	//CameraServer cameraServer = new CameraServer.getInstance();
 	//Encoder test;
 	int autoLoopCounter;
 	int cameraXPos = 153;
@@ -74,7 +83,14 @@ public class Robot extends IterativeRobot {
     	pneumaticsChooser.addObject("Disable Pneumatics", 1);
     	SmartDashboard.putData("Pneumatics", pneumaticsChooser);
     	
-    	
+    	image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+
+        // open the camera at the IP address assigned. This is the IP address that the camera
+        // can be accessed through the web interface.
+        camera = new AxisCamera("axis-camera2144.local");
+        
+        CameraServer.getInstance().setQuality(50);
+        
     	
     	myRobot = new RobotDrive(0,1,2,3);//2:Green, 3:Pink, 0:Blue, 1:Orange
     	stick = new Joystick(0);
@@ -100,7 +116,7 @@ public class Robot extends IterativeRobot {
     	
     	//winch.changeControlMode(CANTalon.ControlMode.PercentVbus);
     	//winch.enableControl();
-     	//CameraServer.getInstance().startAutomaticCapture();
+     	//CameraServer.getInstance().startAutomaticCapture("cam0");
     	stopOverride = false;
     	
     	
@@ -131,7 +147,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
     	pneumaticsState = (Integer) pneumaticsChooser.getSelected();
-    	if(pneumaticsState == 1){
+    	if(pneumaticsState == 0){
     		pneumatics.start();
     		SmartDashboard.putNumber("PneumaticsState", 1);
     	} else {
@@ -139,6 +155,12 @@ public class Robot extends IterativeRobot {
     		SmartDashboard.putNumber("PneumaticsState", 0);
     	}
     	Scheduler.getInstance().run();
+    	
+    	camera.getImage(image);
+        NIVision.imaqFlip(image, image, NIVision.FlipAxis.HORIZONTAL_AXIS);
+        NIVision.imaqFlip(image, image, NIVision.FlipAxis.VERTICAL_AXIS);
+
+        CameraServer.getInstance().setImage(image);
     	
     	/*if(autoLoopCounter <100){
     		myRobot.arcadeDrive(0, 0.5);
@@ -226,7 +248,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	pneumaticsState = (Integer) pneumaticsChooser.getSelected();
-    	if(pneumaticsState == 1){
+    	if(pneumaticsState == 0){
     		pneumatics.start();
     		SmartDashboard.putNumber("PneumaticsState", 1);
     	} else {
@@ -234,6 +256,11 @@ public class Robot extends IterativeRobot {
     		SmartDashboard.putNumber("PneumaticsState", 0);
     	}
     	Scheduler.getInstance().run();
+    	camera.getImage(image);
+        NIVision.imaqFlip(image, image, NIVision.FlipAxis.HORIZONTAL_AXIS);
+        NIVision.imaqFlip(image, image, NIVision.FlipAxis.VERTICAL_AXIS);
+
+        CameraServer.getInstance().setImage(image);
     	/*if(stick.getRawButton(4) && stick.getRawButton(1)){//drive code
     		myRobot.mecanumDrive_Polar(0.3, 90, -1*stick.getX());
     	}
@@ -262,7 +289,7 @@ public class Robot extends IterativeRobot {
     		mecanumMultiplier = 0.4;
     	}else{
     		if(speedMultiplier < 1){
-    			speedMultiplier += 0.1;
+    			speedMultiplier += 0.05;
     		}
     		if(mecanumMultiplier < 1){
     			mecanumMultiplier += 0.1;
@@ -287,7 +314,7 @@ public class Robot extends IterativeRobot {
     			myRobot.arcadeDrive(stick.getX()*-0.5, stick.getY()*-0.5);
     		}
     		else{
-    			myRobot.arcadeDrive(stick.getX()*-speedMultiplier, stick.getY()*-1);
+    			myRobot.arcadeDrive(stick.getX()*-speedMultiplier, stick.getY()*-speedMultiplier);
     		}
     	}
     	
@@ -357,25 +384,25 @@ public class Robot extends IterativeRobot {
     		cameraYPos++;
     	}
     	else if(stick2.getPOV(0) == 270 && cameraXPos>0){//left
-    		cameraXPos--;
+    		cameraXPos++;
     	}
     	else if(stick2.getPOV(0) == 90 && cameraXPos<170){//right
-    		cameraXPos++;
+    		cameraXPos--;
     	}
     	else if(stick2.getPOV(0) == 45 && cameraYPos<170 && cameraXPos<170){//up, right
     		cameraYPos++;
-    		cameraXPos++;
+    		cameraXPos--;
     	}
     	else if(stick2.getPOV(0) == 135 && cameraXPos<170 && cameraYPos>0){//down, right
-    		cameraXPos++;
+    		cameraXPos--;
     		cameraYPos--;
     	}
     	else if(stick2.getPOV(0) == 225 && cameraXPos>0 && cameraYPos>0){//down, left
-    		cameraXPos--;
+    		cameraXPos++;
     		cameraYPos--;
     	}
     	else if(stick2.getPOV(0) == 315 && cameraXPos>0 && cameraYPos<170){//up, left
-    		cameraXPos--;
+    		cameraXPos++;
     		cameraYPos++;
     	}
     	else if(stick2.getRawButton(1)){
