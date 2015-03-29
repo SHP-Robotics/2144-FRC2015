@@ -406,8 +406,8 @@ public class Robot extends IterativeRobot {
     		cameraYPos++;
     	}
     	else if(stick2.getRawButton(1)){
-    		cameraXPos = 85;
-    		cameraYPos = 160;
+    		cameraXPos = 120;
+    		cameraYPos = 87;
     		
     	}
     	
