@@ -7,4 +7,14 @@
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.smartdashboard.SendableChooser"/>
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.command.Scheduler"/>
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.command.Command"/>
+<fullyQualifiedTypeName name="org.usfirst.frc.team2144.robot.RobotMap"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.Victor"/>
+<fullyQualifiedTypeName name="org.usfirst.frc.team2144.robot.subsystems.Drivetrain"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.Joystick"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.RobotDrive"/>
+<fullyQualifiedTypeName name="org.usfirst.frc.team2144.robot.commands.JoystickDrive"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.AnalogPotentiometer"/>
+<fullyQualifiedTypeName name="org.usfirst.frc.team2144.robot.Robot"/>
+<fullyQualifiedTypeName name="org.usfirst.frc.team2144.robot.commands.TurretX"/>
+<fullyQualifiedTypeName name="org.usfirst.frc.team2144.robot.subsystems.TurretRotation"/>
 </qualifiedTypeNameHistroy>

@@ -1,0 +1,44 @@
+public class Talker {
+	public Talker() {
+
+	}
+
+	public void sayHello() {
+		System.out.println("Hello, world!");
+	}
+
+	public void sayHelloasVar() {
+		String hello = "Hello, world!";
+		System.out.println(hello);
+	}
+
+	public void sayHello5Times() {
+		sayHello();
+		sayHello();
+		sayHello();
+		sayHello();
+		sayHello();
+	}
+
+	public void sayHello5TimesWithWhileLoop() {
+		int i = 0;
+		while (i < 5) {
+			sayHello();
+			i++;
+		}
+	}
+
+	public void sayHello5TimesWithForLoop() {
+		for (int i = 0; i < 5; i++) {
+			sayHello();
+		}
+	}
+
+	public void sayHelloifTrue(Boolean test) {
+		if (test) {
+			sayHello();
+		} else {
+			System.out.println("False!");
+		}
+	}
+}
